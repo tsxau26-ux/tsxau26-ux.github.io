@@ -140,6 +140,21 @@ footer{padding:2rem 40px;text-align:center}
 .btn-sm-o:hover{background:var(--green-dim)}
 .btn-full{display:block;text-align:center;width:100%}
 
+/* TICKER */
+.ticker-wrap{position:relative;overflow:hidden;background:var(--green-dim);border-bottom:0.5px solid rgba(29,158,117,.25);padding:9px 0;cursor:default;z-index:99}
+.ticker-wrap::before,.ticker-wrap::after{content:'';position:absolute;top:0;width:80px;height:100%;z-index:2;pointer-events:none}
+.ticker-wrap::before{left:0;background:linear-gradient(to right,var(--green-dim),transparent)}
+.ticker-wrap::after{right:0;background:linear-gradient(to left,var(--green-dim),transparent)}
+.ticker-track{display:flex;width:max-content;animation:ticker 28s linear infinite}
+.ticker-track:hover{animation-play-state:paused}
+.ticker-item{display:inline-flex;align-items:center;gap:10px;padding:0 48px;white-space:nowrap;font-size:11.5px;color:var(--muted);letter-spacing:.02em}
+.ticker-sep{color:rgba(29,158,117,.4);font-size:10px}
+.ticker-label{font-size:9px;font-weight:600;color:var(--green-dim);background:var(--green);padding:2px 7px;border-radius:20px;letter-spacing:.08em}
+.ticker-msg{color:#ccc}
+.ticker-code{font-family:monospace;font-size:13px;font-weight:700;color:var(--green);background:rgba(29,158,117,.12);border:0.5px solid rgba(29,158,117,.35);border-radius:5px;padding:1px 8px;letter-spacing:.12em}
+.ticker-discount{color:var(--green);font-weight:500}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
 @media(max-width:600px){
   nav{padding:12px 20px}.nav-links{display:none}
   .hero{padding:5rem 20px 3rem}
@@ -168,6 +183,20 @@ footer{padding:2rem 40px;text-align:center}
   </div>
   <a class="nav-cta" href="https://t.me/TradingStationVIPBot">Join VIP</a>
 </nav>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <!-- set 1 -->
+    <div class="ticker-item"><span class="ticker-label">LIMITED OFFER</span><span class="ticker-msg">Get <span class="ticker-discount">50% OFF</span> the full Trading Station course</span><span class="ticker-sep">◆</span><span class="ticker-msg">Use code</span><span class="ticker-code">TRADINGSTATION</span><span class="ticker-msg">at checkout — only <strong style="color:#f0f0f0">$150</strong> instead of $300</span></div>
+    <div class="ticker-item"><span class="ticker-sep">◆</span><span class="ticker-msg">11 chapters · ICT strategies · 4x funded trader · 300+ students</span><span class="ticker-sep">◆</span></div>
+    <div class="ticker-item"><span class="ticker-label">XAUUSD</span><span class="ticker-msg">Enroll now &amp; start trading gold with real structure &amp; edge</span><span class="ticker-sep">◆</span><span class="ticker-msg">Code</span><span class="ticker-code">TRADINGSTATION</span><span class="ticker-msg">→ <span class="ticker-discount">50% OFF</span></span><span class="ticker-sep">◆</span></div>
+    <!-- set 2 (duplicate for seamless loop) -->
+    <div class="ticker-item"><span class="ticker-label">LIMITED OFFER</span><span class="ticker-msg">Get <span class="ticker-discount">50% OFF</span> the full Trading Station course</span><span class="ticker-sep">◆</span><span class="ticker-msg">Use code</span><span class="ticker-code">TRADINGSTATION</span><span class="ticker-msg">at checkout — only <strong style="color:#f0f0f0">$150</strong> instead of $300</span></div>
+    <div class="ticker-item"><span class="ticker-sep">◆</span><span class="ticker-msg">11 chapters · ICT strategies · 4x funded trader · 300+ students</span><span class="ticker-sep">◆</span></div>
+    <div class="ticker-item"><span class="ticker-label">XAUUSD</span><span class="ticker-msg">Enroll now &amp; start trading gold with real structure &amp; edge</span><span class="ticker-sep">◆</span><span class="ticker-msg">Code</span><span class="ticker-code">TRADINGSTATION</span><span class="ticker-msg">→ <span class="ticker-discount">50% OFF</span></span><span class="ticker-sep">◆</span></div>
+  </div>
+</div>
 
 <!-- HERO -->
 <div class="hero" id="about">
