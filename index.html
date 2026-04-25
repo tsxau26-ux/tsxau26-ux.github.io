@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trading Station — XAUUSD Trader & Educator</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#1D9E75;--green-dark:#0F6E56;--green-dim:#0a2a1e;--bg:#0a0a0a;--bg2:#111;--bg3:#161616;--border:#1e1e1e;--text:#f0f0f0;--muted:#888;--dim:#444}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.6;overflow-x:hidden}
+h1,h2,h3,.logo{font-family:'Syne',sans-serif}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);padding:14px 40px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-size:16px;font-weight:700;letter-spacing:.02em;color:var(--text)}
+.logo span{color:var(--green)}
+.nav-links{display:flex;gap:28px}
+.nav-links a{font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:.04em;transition:color .2s}
+.nav-links a:hover{color:var(--green)}
+.nav-cta{background:var(--green);color:#fff;border:none;border-radius:6px;padding:8px 18px;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:background .2s}
+.nav-cta:hover{background:var(--green-dark)}
+
+/* HERO */
+.hero{min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:6rem 40px 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(29,158,117,.12) 0%,transparent 70%);pointer-events:none}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--green-dim);color:var(--green);border:0.5px solid rgba(29,158,117,.3);border-radius:20px;padding:5px 14px;font-size:11px;font-weight:500;letter-spacing:.06em;margin-bottom:2rem}
+.hero-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-size:clamp(36px,6vw,72px);font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:1.25rem;max-width:800px}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:16px;color:var(--muted);max-width:520px;margin:0 auto 2.5rem;line-height:1.7;font-weight:300}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-bottom:3.5rem}
+.btn-primary{background:var(--green);color:#fff;border:none;border-radius:8px;padding:13px 28px;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-primary:hover{background:var(--green-dark);transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--text);border:0.5px solid var(--border);border-radius:8px;padding:13px 28px;font-size:14px;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-ghost:hover{border-color:var(--green);color:var(--green)}
+.hero-stats{display:flex;gap:0;border:0.5px solid var(--border);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.hstat{padding:16px 32px;text-align:center;border-right:0.5px solid var(--border)}
+.hstat:last-child{border-right:none}
+.hstat-n{font-family:'Syne',sans-serif;font-size:22px;font-weight:700;color:var(--text)}
+.hstat-l{font-size:11px;color:var(--dim);margin-top:3px;letter-spacing:.04em}
+
+/* SECTIONS */
+section{padding:5rem 40px;border-bottom:0.5px solid var(--border)}
+.section-tag{font-size:10px;font-weight:500;color:var(--green);letter-spacing:.14em;margin-bottom:10px}
+.section-title{font-size:clamp(22px,3vw,32px);font-weight:600;margin-bottom:.5rem;letter-spacing:-.01em}
+.section-sub{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:2rem;max-width:560px}
+
+/* CERTIFICATES */
+.cert-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.cert-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:10px;padding:1.25rem;transition:all .2s;cursor:pointer;text-decoration:none;display:block}
+.cert-card:hover{border-color:var(--green);transform:translateY(-2px)}
+.cert-card.featured{border-color:var(--green);background:var(--green-dim)}
+.cert-icon{width:38px;height:38px;border-radius:8px;background:var(--green-dim);border:0.5px solid rgba(29,158,117,.2);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--green);margin-bottom:12px}
+.cert-name{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;color:var(--text);margin-bottom:4px}
+.cert-issuer{font-size:11px;color:var(--green)}
+.cert-date{font-size:10px;color:var(--dim);margin-top:4px}
+.cert-view{font-size:10px;color:var(--muted);margin-top:8px;text-decoration:underline}
+
+/* COURSE */
+.course-card{background:var(--bg2);border:0.5px solid var(--green);border-radius:14px;padding:2rem;position:relative;overflow:hidden}
+.course-card::before{content:'';position:absolute;top:0;right:0;width:300px;height:300px;background:radial-gradient(circle at top right,rgba(29,158,117,.06),transparent 70%);pointer-events:none}
+.course-tag{display:inline-block;background:var(--green);color:var(--green-dim);font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:1rem;letter-spacing:.04em}
+.course-title{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:.5rem}
+.course-price{font-size:32px;font-weight:700;font-family:'Syne',sans-serif;color:var(--text);margin:1rem 0 .25rem}
+.course-price span{font-size:14px;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif}
+.course-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:1.5rem;padding-bottom:1.5rem;border-bottom:0.5px solid var(--border)}
+.chapters-label{font-size:10px;font-weight:500;color:var(--green);letter-spacing:.1em;margin-bottom:10px}
+.ch-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1.5rem}
+.ch-item{font-size:12px;color:#aaa;display:flex;align-items:center;gap:8px}
+.ch-dot{width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0}
+.bonus-wrap{background:#0a0a0a;border:0.5px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:1.5rem}
+.bonus-item{font-size:12px;color:var(--muted);padding:5px 0;border-bottom:0.5px solid #111;display:flex;align-items:center;gap:8px}
+.bonus-item:last-child{border:none;padding-bottom:0}
+.bc{color:var(--green);flex-shrink:0}
+
+/* INDICATORS */
+.ind-wrap{display:grid;gap:14px}
+.ind-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:12px;padding:1.5rem;transition:border-color .2s}
+.ind-card:hover{border-color:var(--green)}
+.ind-top{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1rem;flex-wrap:wrap}
+.ind-badge{display:inline-block;background:var(--green-dim);color:var(--green);border:0.5px solid rgba(29,158,117,.3);font-size:10px;font-weight:500;padding:3px 10px;border-radius:20px;margin-bottom:8px;letter-spacing:.06em}
+.ind-name{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:4px}
+.ind-tagline{font-size:12px;color:var(--muted)}
+.ind-price{font-family:'Syne',sans-serif;font-size:26px;font-weight:700}
+.ind-price span{font-size:12px;color:var(--muted);font-weight:400;font-family:'DM Sans',sans-serif}
+.ind-desc{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--border)}
+.logic-box{background:#0a0a0a;border:0.5px solid var(--border);border-radius:8px;padding:1rem;margin-bottom:1.25rem}
+.logic-label{font-size:10px;font-weight:500;color:var(--green);letter-spacing:.1em;margin-bottom:10px}
+.logic-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.logic-row{font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px;padding:5px 8px;background:var(--bg2);border-radius:6px;flex-wrap:wrap}
+.feat-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:1.25rem}
+.feat-item{font-size:12px;color:#aaa;display:flex;align-items:center;gap:6px}
+.fdot{width:4px;height:4px;border-radius:50%;background:var(--green);flex-shrink:0}
+.ind-btns{display:flex;gap:10px;flex-wrap:wrap}
+.bundle-box{background:var(--green-dim);border:0.5px solid var(--green);border-radius:12px;padding:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:14px}
+.bundle-save{display:inline-block;background:var(--green);color:var(--green-dim);font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:8px;vertical-align:middle}
+
+/* VIP */
+.vip-box{background:var(--green-dim);border:0.5px solid var(--green);border-radius:14px;padding:2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;position:relative;overflow:hidden}
+.vip-box::before{content:'VIP';position:absolute;right:-10px;top:50%;transform:translateY(-50%);font-family:'Syne',sans-serif;font-size:120px;font-weight:900;color:rgba(29,158,117,.04);pointer-events:none;line-height:1}
+.vip-price{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;margin:.5rem 0 .25rem}
+.vip-note{font-size:11px;color:var(--green-dark)}
+
+/* BROKER */
+.broker-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:14px;padding:1.75rem}
+.broker-top{display:flex;align-items:center;gap:16px;margin-bottom:1.25rem;padding-bottom:1.25rem;border-bottom:0.5px solid var(--border)}
+.broker-logo{width:48px;height:48px;background:var(--bg3);border:0.5px solid var(--border);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--green)}
+.broker-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
+.broker-desc{font-size:12px;color:var(--muted);margin-top:3px}
+.bonus-highlight{background:var(--green-dim);border:0.5px solid var(--green);border-radius:8px;padding:.85rem 1.1rem;display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.bonus-txt{font-size:14px;font-weight:500;color:var(--green)}
+.bonus-sub{font-size:11px;color:var(--green-dark);margin-top:2px}
+.broker-benefits{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.5rem}
+.bben{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:6px}
+
+/* SOCIALS */
+.social-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.soc-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:10px;padding:1rem 1.25rem;text-decoration:none;display:flex;align-items:center;gap:10px;transition:all .2s}
+.soc-card:hover{border-color:var(--green);transform:translateY(-2px)}
+.soc-icon{width:32px;height:32px;border-radius:8px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.soc-name{font-size:13px;font-weight:500;color:var(--text)}
+.soc-handle{font-size:11px;color:var(--dim);margin-top:2px}
+
+/* FOOTER */
+footer{padding:2rem 40px;text-align:center}
+.footer-logo{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:.5rem}
+.footer-logo span{color:var(--green)}
+.footer-copy{font-size:11px;color:#2a2a2a;margin-top:6px}
+
+/* UTILS */
+.btn-sm{display:inline-block;background:var(--green);color:#fff;border:none;border-radius:7px;padding:10px 20px;font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:background .2s;font-family:'DM Sans',sans-serif}
+.btn-sm:hover{background:var(--green-dark)}
+.btn-sm-o{display:inline-block;background:transparent;color:var(--green);border:0.5px solid var(--green);border-radius:7px;padding:10px 20px;font-size:12px;cursor:pointer;text-decoration:none;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-sm-o:hover{background:var(--green-dim)}
+.btn-full{display:block;text-align:center;width:100%}
+
+@media(max-width:600px){
+  nav{padding:12px 20px}.nav-links{display:none}
+  .hero{padding:5rem 20px 3rem}
+  .hero-stats{flex-wrap:wrap}.hstat{flex:1;min-width:100px}
+  section{padding:3rem 20px}
+  .logic-grid{grid-template-columns:1fr}
+  .ch-grid{grid-template-columns:1fr}
+  .broker-benefits{grid-template-columns:1fr}
+  .feat-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Trading<span>Station</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#certificates">Certificates</a>
+    <a href="#course">Course</a>
+    <a href="#indicators">Indicators</a>
+    <a href="#vip">VIP</a>
+    <a href="#broker">Broker</a>
+  </div>
+  <a class="nav-cta" href="https://t.me/TradingStationVIPBot">Join VIP</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="about">
+  <div class="hero-eyebrow"><div class="hero-dot"></div>XAUUSD Specialist — ICT Trader</div>
+  <h1>Trade gold with<br><em>real structure & edge</em></h1>
+  <p class="hero-sub">Full-time XAUUSD trader with 8 years of experience. 4x funded trader. Educator, mentor and community builder for traders who want to stop guessing.</p>
+  <div class="hero-btns">
+    <a class="btn-primary" href="https://forms.gle/MzkX5RG99veRkdN97">Start learning — $300</a>
+    <a class="btn-ghost" href="https://t.me/TradingStationVIPBot">Join VIP signals</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-n">8+</div><div class="hstat-l">Years trading gold</div></div>
+    <div class="hstat"><div class="hstat-n">4x</div><div class="hstat-l">Funded trader</div></div>
+    <div class="hstat"><div class="hstat-n">300+</div><div class="hstat-l">Students</div></div>
+    <div class="hstat"><div class="hstat-n">11</div><div class="hstat-l">Course chapters</div></div>
+  </div>
+</div>
+
+<!-- CERTIFICATES -->
+<section id="certificates">
+  <div class="section-tag">CERTIFICATES & FUNDED ACCOUNTS</div>
+  <h2 class="section-title">Verified proof — not just theory</h2>
+  <p class="section-sub">4 funded accounts across top prop firms. Best coach award. Real results backed by real money.</p>
+  <div class="cert-grid">
+    <a class="cert-card" href="https://drive.google.com/file/d/1xRW8Ovxh8zAHc9wHTfRbJXYYKN8R4_SW/view" target="_blank">
+      <div class="cert-icon">FN</div>
+      <div class="cert-name">Elite Trader</div>
+      <div class="cert-issuer">FundedNext</div>
+      <div class="cert-date">February 13, 2024</div>
+      <div class="cert-view">View certificate ↗</div>
+    </a>
+    <a class="cert-card" href="https://drive.google.com/file/d/11tRjn88eARcQzmJT4LdGAYXO__iaaXIL/view" target="_blank">
+      <div class="cert-icon">TS</div>
+      <div class="cert-name">Funded Trader</div>
+      <div class="cert-issuer">TopStep</div>
+      <div class="cert-date">February 11, 2026</div>
+      <div class="cert-view">View certificate ↗</div>
+    </a>
+    <a class="cert-card" href="#" target="_blank">
+      <div class="cert-icon">FP</div>
+      <div class="cert-name">Funded Trader</div>
+      <div class="cert-issuer">FundingPips</div>
+      <div class="cert-date">Verified funded account</div>
+    </a>
+    <a class="cert-card" href="#" target="_blank">
+      <div class="cert-icon">IF</div>
+      <div class="cert-name">Funded Trader</div>
+      <div class="cert-issuer">Instant Funding</div>
+      <div class="cert-date">Verified funded account</div>
+    </a>
+    <a class="cert-card featured" href="https://drive.google.com/file/d/1yZMsVTzRkUbb-cUobNSaOd6ECpCFwdnt/view" target="_blank">
+      <div class="cert-icon" style="background:var(--green);color:var(--green-dim)">🏆</div>
+      <div class="cert-name">Best Coach Award</div>
+      <div class="cert-issuer">ThinkSet Company</div>
+      <div class="cert-date">6 sessions — 2024</div>
+      <div class="cert-view">View certificate ↗</div>
+    </a>
+  </div>
+</section>
+
+<!-- COURSE -->
+<section id="course">
+  <div class="section-tag">COURSE</div>
+  <h2 class="section-title">Complete XAUUSD Mastery</h2>
+  <p class="section-sub">11 chapters. From zero to funded trader. Built by an 8-year veteran with 4 funded accounts.</p>
+  <div class="course-card">
+    <span class="course-tag">FULL ACCESS</span>
+    <div class="course-title">Trading Station Community</div>
+    <div class="course-price">$300 <span>one-time</span></div>
+    <p class="course-desc">A private trading education community built for traders who want structure, clarity, and a real strategy. Learn market structure, liquidity, ICT concepts and rule-based execution — from a 4x funded trader with 8 years of experience. This is more than a course — it's a complete trading ecosystem.</p>
+    <div class="chapters-label">11 CHAPTERS INCLUDED</div>
+    <div class="ch-grid">
+      <div class="ch-item"><div class="ch-dot"></div>Trading Basics</div>
+      <div class="ch-item"><div class="ch-dot"></div>BOS / MSS + Liquidity</div>
+      <div class="ch-item"><div class="ch-dot"></div>FVG / IFVG</div>
+      <div class="ch-item"><div class="ch-dot"></div>Fibonacci / 50% Entries</div>
+      <div class="ch-item"><div class="ch-dot"></div>Practice & Market Analysis</div>
+      <div class="ch-item"><div class="ch-dot"></div>CISD</div>
+      <div class="ch-item"><div class="ch-dot"></div>Session High / Low Strategy</div>
+      <div class="ch-item"><div class="ch-dot"></div>Silver Bullet & Turtle Soup</div>
+      <div class="ch-item"><div class="ch-dot"></div>Fractal Model (Full Strategy)</div>
+      <div class="ch-item"><div class="ch-dot"></div>Quiz & Test</div>
+      <div class="ch-item"><div class="ch-dot"></div>Psychology & Risk Management</div>
+    </div>
+    <div class="chapters-label">ALSO INCLUDED</div>
+    <div class="bonus-wrap">
+      <div class="bonus-item"><span class="bc">+</span>Private WhatsApp group access</div>
+      <div class="bonus-item"><span class="bc">+</span>Live market analysis & trade breakdowns</div>
+      <div class="bonus-item"><span class="bc">+</span>Ongoing mentorship & community support</div>
+      <div class="bonus-item"><span class="bc">+</span>Guidance to pass challenge accounts</div>
+      <div class="bonus-item"><span class="bc">+</span>Step-by-step from beginner to advanced</div>
+    </div>
+    <a class="btn-primary btn-full" href="https://forms.gle/MzkX5RG99veRkdN97">Enroll now — $300</a>
+  </div>
+</section>
+
+<!-- INDICATORS -->
+<section id="indicators">
+  <div class="section-tag">INDICATORS</div>
+  <h2 class="section-title">My custom TradingView tools</h2>
+  <p class="section-sub">Built from 8 years of experience. No repainting. No noise. Just edge.</p>
+  <div class="ind-wrap">
+
+    <div class="ind-card">
+      <div class="ind-top">
+        <div>
+          <span class="ind-badge">MACRO TOOL</span>
+          <div class="ind-name">Trading Station Compass</div>
+          <div class="ind-tagline">Tells you what to trade & in which direction — no manual analysis needed</div>
+        </div>
+        <div class="ind-price">$40 <span>/ lifetime</span></div>
+      </div>
+      <p class="ind-desc">A macro-based directional tool combining DXY and EUR/GBP strength to give you one clear signal: BUY, SELL or WAIT — and exactly which pair to trade. No guesswork. No overtrading.</p>
+      <div class="logic-box">
+        <div class="logic-label">SIGNAL LOGIC</div>
+        <div class="logic-grid">
+          <div class="logic-row">USD Strong + EUR Strong → <span style="color:#e05;margin-left:auto;font-weight:500">SELL GBP/USD</span></div>
+          <div class="logic-row">USD Strong + GBP Strong → <span style="color:#e05;margin-left:auto;font-weight:500">SELL EUR/USD</span></div>
+          <div class="logic-row">USD Weak + EUR Strong → <span style="color:var(--green);margin-left:auto;font-weight:500">BUY EUR/USD</span></div>
+          <div class="logic-row">USD Weak + GBP Strong → <span style="color:var(--green);margin-left:auto;font-weight:500">BUY GBP/USD</span></div>
+        </div>
+        <div style="font-size:11px;color:var(--dim);margin-top:8px">No clear edge → WAIT. No overtrading.</div>
+      </div>
+      <div class="chapters-label">KEY FEATURES</div>
+      <div class="feat-grid" style="margin-bottom:1.25rem">
+        <div class="feat-item"><div class="fdot"></div>Automatic Daily Bias (DXY)</div>
+        <div class="feat-item"><div class="fdot"></div>Smart Pair Selection</div>
+        <div class="feat-item"><div class="fdot"></div>BUY / SELL / WAIT signals</div>
+        <div class="feat-item"><div class="fdot"></div>Real-time chart dashboard</div>
+        <div class="feat-item"><div class="fdot"></div>Fully customizable UI</div>
+        <div class="feat-item"><div class="fdot"></div>Built-in alerts</div>
+        <div class="feat-item"><div class="fdot"></div>Any timeframe</div>
+        <div class="feat-item"><div class="fdot"></div>Higher TF logic built-in</div>
+      </div>
+      <div class="ind-btns">
+        <a class="btn-sm" href="https://wa.me/21654190244">Get Compass — $40</a>
+        <a class="btn-sm-o" href="https://wa.me/21654190244">Ask a question</a>
+      </div>
+    </div>
+
+    <div class="ind-card">
+      <div class="ind-top">
+        <div>
+          <span class="ind-badge">ICT STRUCTURE TOOL</span>
+          <div class="ind-name">Trading Station Structure</div>
+          <div class="ind-tagline">Liquidity sweeps, structure progression and killzones — all in one dashboard</div>
+        </div>
+        <div class="ind-price">$70 <span>/ lifetime</span></div>
+      </div>
+      <p class="ind-desc">A powerful ICT-based tool that identifies high-probability setups using liquidity sweeps, market structure progression and multi-timeframe confirmation. See the full picture instantly.</p>
+      <div class="logic-box">
+        <div class="logic-label">WHAT IT DETECTS</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="logic-row">✔ C2 liquidity sweeps (BSL/SSL grabs)</div>
+          <div class="logic-row">✔ C2 → C3 → C4 structure progression</div>
+          <div class="logic-row">✔ Real-time bias across all key timeframes</div>
+          <div class="logic-row">✔ Potential setups before they happen</div>
+        </div>
+      </div>
+      <div class="chapters-label">KEY FEATURES</div>
+      <div class="feat-grid" style="margin-bottom:1.25rem">
+        <div class="feat-item"><div class="fdot"></div>C2 liquidity sweep detection</div>
+        <div class="feat-item"><div class="fdot"></div>Structure progression tracker</div>
+        <div class="feat-item"><div class="fdot"></div>Multi-timeframe bias display</div>
+        <div class="feat-item"><div class="fdot"></div>Killzones (Asia & London)</div>
+        <div class="feat-item"><div class="fdot"></div>Daily / Weekly / Monthly levels</div>
+        <div class="feat-item"><div class="fdot"></div>Smart alerts</div>
+        <div class="feat-item"><div class="fdot"></div>Setup highlighting pre-entry</div>
+        <div class="feat-item"><div class="fdot"></div>Works on all markets</div>
+      </div>
+      <div class="ind-btns">
+        <a class="btn-sm" href="https://wa.me/21654190244">Get Structure — $70</a>
+        <a class="btn-sm-o" href="https://wa.me/21654190244">Ask a question</a>
+      </div>
+    </div>
+
+    <div class="bundle-box">
+      <div>
+        <div style="font-size:11px;color:var(--green);font-weight:600;letter-spacing:.06em;margin-bottom:6px">🔥 BUNDLE DEAL</div>
+        <div style="font-family:'Syne',sans-serif;font-size:16px;font-weight:700">Compass + Structure</div>
+        <div style="font-size:12px;color:var(--green-dark);margin-top:4px">Save $10 — get both tools at a discount</div>
+        <div style="margin-top:10px;font-family:'Syne',sans-serif;font-size:24px;font-weight:700">$100 <span style="font-size:14px;color:var(--green-dark);text-decoration:line-through;font-weight:400">$110</span><span class="bundle-save">Save $10</span></div>
+      </div>
+      <a class="btn-sm" href="https://wa.me/21654190244">Get the bundle</a>
+    </div>
+  </div>
+</section>
+
+<!-- VIP -->
+<section id="vip">
+  <div class="section-tag">VIP SIGNALS</div>
+  <h2 class="section-title">Live XAUUSD signals daily</h2>
+  <p class="section-sub">Real-time setups before the move. Entry, SL and TP — sent before the New York session.</p>
+  <div class="vip-box">
+    <div>
+      <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700">Trading Station VIP</div>
+      <div style="font-size:12px;color:var(--green);margin-top:4px">Signals + NY analysis + direct access</div>
+      <div class="vip-price">$20 <span style="font-size:14px;color:var(--green-dark);font-weight:400;font-family:'DM Sans',sans-serif">/ month</span></div>
+      <div class="vip-note">⚠️ Rises to $35 after 20 founder members</div>
+    </div>
+    <a class="btn-primary" href="https://t.me/TradingStationVIPBot">Join VIP now</a>
+  </div>
+</section>
+
+<!-- BROKER -->
+<section id="broker">
+  <div class="section-tag">RECOMMENDED BROKER</div>
+  <h2 class="section-title">Trade with Ultima Markets</h2>
+  <p class="section-sub">The broker I personally use. Open with my link and get a 50% deposit bonus — exclusive offer.</p>
+  <div class="broker-card">
+    <div class="broker-top">
+      <div class="broker-logo">UM</div>
+      <div>
+        <div class="broker-name">Ultima Markets</div>
+        <div class="broker-desc">Regulated — Low spreads — Fast execution on XAUUSD — MT4 / MT5</div>
+      </div>
+    </div>
+    <div class="bonus-highlight">
+      <div>
+        <div class="bonus-txt">50% bonus on first deposit</div>
+        <div class="bonus-sub">Exclusive through my referral link — use code in link</div>
+      </div>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="broker-benefits">
+      <div class="bben"><div class="fdot"></div>50% deposit bonus</div>
+      <div class="bben"><div class="fdot"></div>MT4 / MT5 platform</div>
+      <div class="bben"><div class="fdot"></div>Low gold spreads</div>
+      <div class="bben"><div class="fdot"></div>Fast withdrawals</div>
+      <div class="bben"><div class="fdot"></div>Arabic support</div>
+      <div class="bben"><div class="fdot"></div>Regulated broker</div>
+    </div>
+    <a class="btn-primary btn-full" href="https://ultgo.com/la-com/KsdEB27R" target="_blank">Open account — get 50% bonus</a>
+    <p style="font-size:10px;color:#2a2a2a;text-align:center;margin-top:8px">Affiliate link — I earn commission at no cost to you</p>
+  </div>
+</section>
+
+<!-- SOCIALS -->
+<section>
+  <div class="section-tag">CONTACT & SOCIALS</div>
+  <h2 class="section-title">Let's connect</h2>
+  <div class="social-grid">
+    <a class="soc-card" href="https://t.me/TradingStationVIPBot" target="_blank">
+      <div class="soc-icon">✈️</div>
+      <div><div class="soc-name">Telegram</div><div class="soc-handle">@TradingStationVIPBot</div></div>
+    </a>
+    <a class="soc-card" href="https://www.tiktok.com/@tradingstation26" target="_blank">
+      <div class="soc-icon">🎵</div>
+      <div><div class="soc-name">TikTok</div><div class="soc-handle">@tradingstation26</div></div>
+    </a>
+    <a class="soc-card" href="https://www.facebook.com/share/18HHxkUeQo/" target="_blank">
+      <div class="soc-icon">📘</div>
+      <div><div class="soc-name">Facebook</div><div class="soc-handle">Trading Station</div></div>
+    </a>
+    <a class="soc-card" href="https://wa.me/21654190244" target="_blank">
+      <div class="soc-icon">💬</div>
+      <div><div class="soc-name">WhatsApp</div><div class="soc-handle">+216 54 190 244</div></div>
+    </a>
+    <a class="soc-card" href="https://forms.gle/MzkX5RG99veRkdN97" target="_blank">
+      <div class="soc-icon">📝</div>
+      <div><div class="soc-name">Enroll Form</div><div class="soc-handle">Start learning</div></div>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Trading<span>Station</span></div>
+  <div style="font-size:12px;color:var(--dim);margin-top:4px">XAUUSD Trader & Educator — 8 years experience</div>
+  <div class="footer-copy">Trading involves risk. Past performance is not indicative of future results. Not financial advice.</div>
+</footer>
+
+</body>
+</html>
