@@ -155,6 +155,13 @@ footer{padding:2rem 40px;text-align:center}
 .ticker-discount{color:var(--green);font-weight:500}
 @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 
+/* LIVE CHART */
+.chart-wrap{border-radius:12px;overflow:hidden;border:0.5px solid var(--border);background:var(--bg2)}
+.chart-price-bar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:1rem 1.25rem;border-bottom:0.5px solid var(--border)}
+.chart-symbol{font-family:'Syne',sans-serif;font-size:15px;font-weight:700;display:flex;align-items:center;gap:8px}
+.chart-live-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;flex-shrink:0}
+.chart-note{font-size:11px;color:var(--dim)}
+
 @media(max-width:600px){
   nav{padding:12px 20px}.nav-links{display:none}
   .hero{padding:5rem 20px 3rem}
@@ -166,6 +173,8 @@ footer{padding:2rem 40px;text-align:center}
   .feat-grid{grid-template-columns:1fr}
   .social-grid{grid-template-columns:1fr}
   .soc-card{padding:.85rem 1rem}
+  .chart-price-bar{flex-direction:column;align-items:flex-start}
+  .tradingview-widget-container{height:360px!important}
 }
 </style>
 </head>
@@ -175,6 +184,7 @@ footer{padding:2rem 40px;text-align:center}
   <div class="logo">Trading<span>Station</span></div>
   <div class="nav-links">
     <a href="#about">About</a>
+    <a href="#chart">Chart</a>
     <a href="#certificates">Certificates</a>
     <a href="#course">Course</a>
     <a href="#indicators">Indicators</a>
@@ -214,6 +224,48 @@ footer{padding:2rem 40px;text-align:center}
     <div class="hstat"><div class="hstat-n">11</div><div class="hstat-l">Course chapters</div></div>
   </div>
 </div>
+
+<!-- LIVE CHART -->
+<section id="chart">
+  <div class="section-tag">LIVE MARKET</div>
+  <h2 class="section-title">XAUUSD Live Chart</h2>
+  <p class="section-sub">Real-time gold price — powered by TradingView. Free to use, no login needed.</p>
+  <div class="chart-wrap">
+    <div class="chart-price-bar">
+      <div class="chart-symbol">
+        <div class="chart-live-dot"></div>
+        XAU/USD · Gold Spot
+      </div>
+      <div class="chart-note">Chart by TradingView · Updates live</div>
+    </div>
+    <div class="tradingview-widget-container" style="height:480px">
+      <div id="tradingview_xauusd" style="height:100%"></div>
+      <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
+      <script type="text/javascript">
+      new TradingView.widget({
+        "autosize": true,
+        "symbol": "OANDA:XAUUSD",
+        "interval": "H1",
+        "timezone": "Etc/UTC",
+        "theme": "dark",
+        "style": "1",
+        "locale": "en",
+        "toolbar_bg": "#111111",
+        "backgroundColor": "#111111",
+        "gridColor": "rgba(30,30,30,0.8)",
+        "enable_publishing": false,
+        "hide_top_toolbar": false,
+        "hide_legend": false,
+        "hide_side_toolbar": true,
+        "allow_symbol_change": false,
+        "save_image": false,
+        "studies": [],
+        "container_id": "tradingview_xauusd"
+      });
+      </script>
+    </div>
+  </div>
+</section>
 
 <!-- CERTIFICATES -->
 <section id="certificates">
